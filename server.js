@@ -12,15 +12,18 @@ express()
     res.render('pages/index', params)
   })
   .get('/getData', (req, res) => {
-    var cost = ''
-    cost = calculateRate(req.query)
-    if (!isNaN(cost)) {
-      cost = cost.toFixed(2)
+    if (JSON.stringify(req.query) == '{}'){
+      var params = {'cost': '0.00'}
+      res.render('pages/index', params)
+    } else {
+      var cost = ''
+      cost = calculateRate(req.query)
+      if (!isNaN(cost)) {
+        cost = cost.toFixed(2)
+      }
+      var params = {'cost': cost.toString()}
+      res.render('pages/getData', params)
     }
-    // tests
-    console.log ('cost:' + cost)
-    var params = {'cost': cost.toString()}
-    res.render('pages/getData', params)
   })
   .get('/getData_json', (req, res) => {
     var params = {'mailType': req.query.mailType, 'itemWeight': req.query.itemWeight, 'total': calculateRate(req.query)}
@@ -31,8 +34,6 @@ express()
   .get('/getData_xml', (req, res) => {
     var params = {'postageRate': {'mailType': { "_text": req.query.mailType }, 'itemWeight': { "_text": req.query.itemWeight}, 'total': { "_text": calculateRate(req.query)}}}
     res.writeHead(200, {"Content-Type": "application/xml"})
-    var xml = convert.js2xml(params, {compact: true})
-    console.log(xml)
     res.write(convert.js2xml(params, {compact: true}))
     res.end()
   })
