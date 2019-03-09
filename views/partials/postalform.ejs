@@ -1,0 +1,33 @@
+<div class="form-container">
+  <h2>Postal Rate Calculator</h2>
+  <form action="/getData" method="GET" class="form-horizontal">
+    <div class="form-group">
+      <label for="itemWeight" class="col-sm-2 control-label">Weight</label>
+      <div class="col-sm-10">
+        <div class="input-group">
+          <input type="text" name="itemWeight" id="itemWeight" class="form-control">
+          <div class="input-group-addon">oz</div>
+        </div>
+      </div>
+      <label for="mailType" class="col-sm-2 control-label">Mail Type</label>
+      <div class="col-sm-10">
+        <select name="mailType" id="mailType" class="form-control">
+          <option value="stampedLetter">Letters (Stamped)</option>
+          <option value="meteredLetter">Letters (Metered)</option>
+          <option value="largeEnvelopes">Large Envelopes (Flats)</option>
+          <option value="firstClassPackage">First-Class Package Service – Retail</option>
+        </select>
+      </div>
+      <div class="col-sm-offset-2 col-sm-10">
+        <input type="submit" value="Calculate Rate" class="btn btn-default">
+      </div>
+      <label for="total" class="col-sm-2 control-label">Total</label>
+      <div class="col-sm-10">
+          <div class="input-group">
+            <div class="input-group-addon">$</div>
+            <input type="text" name="total" id="total" class="form-control" value="<%= cost %>">
+          </div>
+        </div>
+    </div>
+  </form>
+</div>
