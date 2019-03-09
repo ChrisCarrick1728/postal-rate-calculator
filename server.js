@@ -29,7 +29,7 @@ express()
     res.end()
   })
   .get('/getData_xml', (req, res) => {
-    var params = {'mailType': { "_text": req.query.mailType }, 'itemWeight': { "_text": req.query.itemWeight}, 'total': { "_text": calculateRate(req.query)}}
+    var params = {'postageRate': {'mailType': { "_text": req.query.mailType }, 'itemWeight': { "_text": req.query.itemWeight}, 'total': { "_text": calculateRate(req.query)}}}
     res.writeHead(200, {"Content-Type": "application/xml"})
     var xml = convert.js2xml(params, {compact: true})
     console.log(xml)
