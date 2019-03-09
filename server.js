@@ -16,6 +16,7 @@ express()
     if (!isNaN(cost)) {
       cost = cost.toFixed(2)
     }
+    // tests
     console.log ('cost:' + cost)
     var params = {'cost': cost.toString()}
     res.render('pages/getData', params)
