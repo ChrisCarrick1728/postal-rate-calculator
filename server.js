@@ -1,6 +1,7 @@
 const express = require('express')
 const path = require('path')
 const PORT = process.env.PORT || 5000
+var convert = require('xml-js')
 
 express()
   .use(express.static(path.join(__dirname, 'public')))
@@ -21,11 +22,25 @@ express()
     var params = {'cost': cost.toString()}
     res.render('pages/getData', params)
   })
+  .get('/getData_json', (req, res) => {
+    var params = {'mailType': req.query.mailType, 'itemWeight': req.query.itemWeight, 'total': calculateRate(req.query)}
+    res.writeHead(200, {"Content-Type": "application/json"})
+    res.write(JSON.stringify(params))
+    res.end()
+  })
+  .get('/getData_xml', (req, res) => {
+    var params = {'mailType': { "_text": req.query.mailType }, 'itemWeight': { "_text": req.query.itemWeight}, 'total': { "_text": calculateRate(req.query)}}
+    res.writeHead(200, {"Content-Type": "application/xml"})
+    var xml = convert.js2xml(params, {compact: true})
+    console.log(xml)
+    res.write(convert.js2xml(params, {compact: true}))
+    res.end()
+  })
   .listen(PORT, () => console.log(`Listening on ${ PORT }`))
 
 
 function calculateRate(q) {
-  console.log(q)
+  //console.log(q)
   if (q.mailType == 'stampedLetter') {
     if (q.itemWeight <= 1) {
       return 0.55
